@@ -1,0 +1,32 @@
+images:
+- name: ghcr.io/lsst-dm/consdb-efdtransform
+  newTag: "tickets-DM-43722"
+
+namespace: dev-latiss
+
+patches:
+- patch: |-
+    - op: replace
+      path: /metadata/name
+      value: dev-latiss
+  target:
+    kind: Namespace
+  options:
+    allowNameChange: true
+
+secretGenerator:
+  - name: postgres
+    files:
+    - butler-password=etc/.secrets/butler-password
+    - consdb-url=etc/.secrets/db-uri
+  - name: s3
+    files:
+    - access-key-id=etc/.secrets/access-key-id
+    - secret-access-key=etc/.secrets/secret-access-key
+  - name: usdf-efd
+    files:
+    - usdf-efd-password=etc/.secrets/usdf-efd-password
+resources:
+- ../../common
+- consdb-transform-latiss.yaml   # uncomment to run the cronjob
+# - latiss-fixed-period-job.yaml   # uncomment this to manually run the job

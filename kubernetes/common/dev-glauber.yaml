@@ -1,0 +1,73 @@
+# ---
+
+# apiVersion: batch/v1
+# kind: Job
+# metadata:
+#   name: transformd
+#   labels:
+#     app: transformd
+# spec:
+#   ttlSecondsAfterFinished: 60
+#   template:
+#     metadata:
+#       labels:
+#         app: transformd
+#     spec:
+#       restartPolicy: Never
+#       containers:
+#       - name: efdtransform
+#         image: "ghcr.io/lsst-dm/consdb-efdtransform:placeholder"
+#         imagePullPolicy: Always
+#         command: ["/bin/bash"]
+#         args: ["-c", "source loadLSST.bash; setup lsst_distrib; python ./consdb/efd_transform/transform_efd.py -c \"$CONFIG_FILE\" -i \"$INSTRUMENT\" -r \"$BUTLER_REPO\" -d \"$CONSDB_URL\"  -E \"$EFD\" -t \"$TIMEDELTA\" -l \"$LOG_FILE\" -s 2024-04-24T23:00:00 -e 2024-04-25T00:00:00"]
+#         env:
+#         - name: CONFIG_FILE 
+#           value: /opt/lsst/software/stack/consdb/efd_transform/config_LATISS.yaml
+#         - name: INSTRUMENT
+#           value: LATISS
+#         - name: TIMEDELTA
+#           value: "5"
+#         - name: CONSDB_URL
+#           # value: sqlite:////opt/lsst/software/stack/data/test.db
+#           value: postgresql://rubin:3BNCTS2MpwRbXm1PNbh1xOOFKdJm60ay1z9aqgPGPFssiv0ECQySBuMCuDu8pMbu@usdf-consdb-rw.dev-latiss.svc.cluster.local:5432/efdtransform
+#           # valueFrom:
+#           #   secretKeyRef:
+#           #     name: postgres
+#           #     key: consdb-url
+#         - name: EFD_USERNAME
+#           value: "efdreader"
+#         - name: EFD_PASSWORD
+#           valueFrom:
+#             secretKeyRef:
+#               name: usdf-efd
+#               key: usdf-efd-password
+#         - name: BUTLER_REPO
+#           value: "s3://rubin-summit-users/butler.yaml"
+#         - name: S3_ENDPOINT_URL
+#           value: https://s3dfrgw.slac.stanford.edu/
+#         - name: AWS_ACCESS_KEY_ID
+#           valueFrom:
+#             secretKeyRef:
+#               name: s3
+#               key: access-key-id
+#         - name: AWS_SECRET_ACCESS_KEY
+#           valueFrom:
+#             secretKeyRef:
+#               name: s3
+#               key: secret-access-key   
+#         - name: PGUSER
+#           value: rubin
+#         - name: PGPASSWORD
+#           valueFrom:
+#             secretKeyRef:
+#               name: postgres
+#               key: butler-password              
+#         - name: LOG_FILE
+#           value: "/opt/lsst/software/stack/data/transform.log"              
+#         resources:
+#           limits:
+#             cpu: "1"
+#             memory: "4Gi"
+#           requests:
+#             cpu: "250m"
+#             memory: "2Gi"
