@@ -34,11 +34,10 @@ spec:
               value: "1"          
             - name: CONSDB_URL
               # value: sqlite:////opt/lsst/software/stack/data/test.db
-              value: postgresql://rubin:3BNCTS2MpwRbXm1PNbh1xOOFKdJm60ay1z9aqgPGPFssiv0ECQySBuMCuDu8pMbu@usdf-consdb-rw.dev-latiss.svc.cluster.local:5432/efdtransform
-              # valueFrom:
-              #   secretKeyRef:
-              #     name: postgres
-              #     key: consdb-url
+              valueFrom:
+                secretKeyRef:
+                  name: efd-transform-db
+                  key: consdb-url
             - name: EFD_USERNAME
               value: "efdreader"
             - name: EFD_PASSWORD
