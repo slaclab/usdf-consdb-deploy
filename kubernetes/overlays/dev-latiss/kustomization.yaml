@@ -18,7 +18,6 @@ secretGenerator:
   - name: postgres
     files:
     - butler-password=etc/.secrets/butler-password
-    - consdb-url=etc/.secrets/db-uri
   - name: s3
     files:
     - access-key-id=etc/.secrets/access-key-id
@@ -26,6 +25,9 @@ secretGenerator:
   - name: usdf-efd
     files:
     - usdf-efd-password=etc/.secrets/usdf-efd-password
+  - name: efd-transform-db
+    file:
+    - consdb-url=etc/.secrets/consdb-url
 resources:
 - ../../common
 - consdb-transform-latiss.yaml   # uncomment to run the cronjob
