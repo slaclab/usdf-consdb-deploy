@@ -33,12 +33,10 @@ spec:
             - name : TIMEWINDOW
               value: "1"          
             - name: CONSDB_URL
-              # value: sqlite:////opt/lsst/software/stack/data/test.db
-              value: postgresql://rubin:3BNCTS2MpwRbXm1PNbh1xOOFKdJm60ay1z9aqgPGPFssiv0ECQySBuMCuDu8pMbu@usdf-consdb-rw.dev-latiss.svc.cluster.local:5432/efdtransform
-              # valueFrom:
-              #   secretKeyRef:
-              #     name: postgres
-              #     key: consdb-url
+              valueFrom:
+                secretKeyRef:
+                  name: efd-transform-db
+                  key: consdb-url
             - name: EFD_USERNAME
               value: "efdreader"
             - name: EFD_PASSWORD
@@ -47,7 +45,7 @@ spec:
                   name: usdf-efd
                   key: usdf-efd-password
             - name: BUTLER_REPO
-              value: "s3://rubin-summit-users/butler.yaml"
+              value: "s3://embargo@rubin-summit-users/butler.yaml"
               # value: "/repo/embargo_old"
             - name: S3_ENDPOINT_URL
               value: https://s3dfrgw.slac.stanford.edu/
@@ -61,6 +59,11 @@ spec:
                 secretKeyRef:
                   name: s3
                   key: secret-access-key   
+            - name: LSST_RESOURCES_S3_PROFILE_embargo
+              valueFrom:
+                secretKeyRef:
+                  name: s3
+                  key: s3-profile-embargo
             - name: PGUSER
               value: rubin
             - name: PGPASSWORD

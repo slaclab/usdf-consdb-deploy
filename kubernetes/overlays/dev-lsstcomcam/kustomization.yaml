@@ -23,11 +23,16 @@ secretGenerator:
     files:
     - access-key-id=etc/.secrets/access-key-id
     - secret-access-key=etc/.secrets/secret-access-key
+    - s3-profile-embargo=etc/.secrets/s3-profile-embargo
   - name: usdf-efd
     files:
     - usdf-efd-password=etc/.secrets/usdf-efd-password
+  - name: efd-transform-db
+    files:
+    - consdb-url=etc/.secrets/consdb-url
+
 resources:
 - ../../common
-- volumes.yaml
-- consdb-transform-lsstcomcam.yaml   # uncomment to run the cronjob
-# - lsstcomcam-fixed-period-job.yaml   # uncomment this to manually run the job
+# - consdb-transform-lsstcomcam.yaml   # uncomment to run the cronjob
+- lsstcomcam-fixed-period-job-embargo-old.yaml   # uncomment this to manually run the job
+# - lsstcomcam-fixed-period-job-embargo-new.yaml   # uncomment this to manually run the job
