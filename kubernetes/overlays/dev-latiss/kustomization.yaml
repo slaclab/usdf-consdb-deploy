@@ -22,13 +22,14 @@ secretGenerator:
     files:
     - access-key-id=etc/.secrets/access-key-id
     - secret-access-key=etc/.secrets/secret-access-key
+    - s3-profile-embargo=etc/.secrets/s3-profile-embargo
   - name: usdf-efd
     files:
     - usdf-efd-password=etc/.secrets/usdf-efd-password
   - name: efd-transform-db
-    file:
+    files:
     - consdb-url=etc/.secrets/consdb-url
 resources:
 - ../../common
 - consdb-transform-latiss.yaml   # uncomment to run the cronjob
-# - latiss-fixed-period-job.yaml   # uncomment this to manually run the job
+# - latiss-fixed-period-job-embargo-old.yaml   # uncomment this to manually run the job using embargo old s3 bucket
