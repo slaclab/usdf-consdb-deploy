@@ -5,9 +5,10 @@ ENV ?= dev-latiss
 get-secrets-from-vault:
 	mkdir -p etc/.secrets/
 	set -e; for i in db-uri butler-password; do vault kv get --field=$$i ${SECRET_PATH}/${ENV}/postgres > etc/.secrets/$$i ; done
-	set -e; for i in access-key-id secret-access-key; do vault kv get --field=$$i ${SECRET_PATH}/${ENV}/s3 > etc/.secrets/$$i ; done
+	set -e; for i in access-key-id secret-access-key s3-profile-embargo; do vault kv get --field=$$i ${SECRET_PATH}/${ENV}/s3 > etc/.secrets/$$i ; done
 	set -e; for i in usdf-efd-password; do vault kv get --field=$$i ${SECRET_PATH}/${ENV}/usdf-efd > etc/.secrets/$$i ; done
-        set -e; for i in consdb-url; do vault kv get --field=$$i ${SECRET_PATH}/${ENV}/efd-transform-db > etc/.secrets/$$i ; done
+	set -e; for i in consdb-url; do vault kv get --field=$$i ${SECRET_PATH}/${ENV}/efd-transform-db > etc/.secrets/$$i ; done
+
 clean-secrets:
 	rm -rf etc/.secrets/
 
