@@ -3,4 +3,4 @@ resources:
 # - consdb-transform.yaml
 # - dev-glauber.yaml
 - postgres.yaml
-# - cluster-expose.yml
+- postgres-lb.yaml

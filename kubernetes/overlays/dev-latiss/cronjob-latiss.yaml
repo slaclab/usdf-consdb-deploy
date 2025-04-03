@@ -22,17 +22,20 @@ spec:
             image: "ghcr.io/lsst-dm/consdb-efdtransform:placeholder"
             imagePullPolicy: Always
             command: ["/bin/bash"]
-            args: ["-c", "source loadLSST.bash; setup lsst_distrib; python ./consdb/efd_transform/transform_efd.py -c \"$CONFIG_FILE\" -i \"$INSTRUMENT\" -r \"$BUTLER_REPO\" -d \"$CONSDB_URL\"  -E \"$EFD\" -t \"$TIMEDELTA\" -w \"$TIMEWINDOW\" -l \"$LOG_FILE\""]
+            args: ["-c", "source loadLSST.bash; setup lsst_distrib; python /opt/lsst/software/stack/python/lsst/consdb/efd_transform/transform_efd.py -c \"$CONFIG_FILE\" -i \"$INSTRUMENT\" -r \"$BUTLER_REPO\" -d \"$CONSDB_URL\"  -E \"$EFD\" -t \"$TIMEDELTA\" -w \"$TIMEWINDOW\" -l \"$LOG_FILE\" -m \"$MODE\""]
             env:
             - name: CONFIG_FILE 
-              value: /opt/lsst/software/stack/consdb/efd_transform/config_LSSTComCam.yaml
+              value: /opt/lsst/software/stack/python/lsst/consdb/efd_transform/config_LATISS.yaml
             - name: INSTRUMENT
-              value: LSSTComCam
+              value: LATISS
             - name: TIMEDELTA
               value: "5"
             - name : TIMEWINDOW
               value: "1"          
+            - name: MODE
+              value: "cronjob"              
             - name: CONSDB_URL
+              # value: sqlite:////opt/lsst/software/stack/data/test.db
               valueFrom:
                 secretKeyRef:
                   name: efd-transform-db
@@ -46,7 +49,6 @@ spec:
                   key: usdf-efd-password
             - name: BUTLER_REPO
               value: "s3://embargo@rubin-summit-users/butler.yaml"
-              # value: "/repo/embargo_old"
             - name: S3_ENDPOINT_URL
               value: https://s3dfrgw.slac.stanford.edu/
             - name: AWS_ACCESS_KEY_ID
@@ -63,7 +65,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: s3
-                  key: s3-profile-embargo
+                  key: s3-profile-embargo                  
             - name: PGUSER
               value: rubin
             - name: PGPASSWORD
@@ -75,8 +77,9 @@ spec:
               value: "/opt/lsst/software/stack/data/transform.log"              
             resources:
               limits:
-                cpu: "1"
-                memory: "4Gi"
+                cpu: "4"
+                memory: "8Gi"
               requests:
-                cpu: "250m"
-                memory: "2Gi"
+                cpu: "2"
+                memory: "4Gi"
+

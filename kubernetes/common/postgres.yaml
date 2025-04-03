@@ -1,13 +1,13 @@
-apiVersion: postgresql.cnpg.io/v1
-kind: Cluster
-metadata:
-  name: usdf-consdb
-spec:
-  instances: 1
-  primaryUpdateStrategy: unsupervised
-  bootstrap:
-    initdb:
-      database: efdtransform
-      owner: rubin 
-  storage:
-    size: 1Gi
+  apiVersion: postgresql.cnpg.io/v1
+  kind: Cluster
+  metadata:
+    name: usdf-consdb
+  spec:
+    instances: 1
+    primaryUpdateStrategy: unsupervised
+    bootstrap:
+      initdb:
+        database: efdtransform
+        owner: rubin 
+    storage:
+      size: 20Gi

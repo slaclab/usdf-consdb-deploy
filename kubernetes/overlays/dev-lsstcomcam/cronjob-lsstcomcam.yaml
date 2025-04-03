@@ -22,16 +22,18 @@ spec:
             image: "ghcr.io/lsst-dm/consdb-efdtransform:placeholder"
             imagePullPolicy: Always
             command: ["/bin/bash"]
-            args: ["-c", "source loadLSST.bash; setup lsst_distrib; python ./consdb/efd_transform/transform_efd.py -c \"$CONFIG_FILE\" -i \"$INSTRUMENT\" -r \"$BUTLER_REPO\" -d \"$CONSDB_URL\"  -E \"$EFD\" -t \"$TIMEDELTA\" -w \"$TIMEWINDOW\" -l \"$LOG_FILE\""]
+            args: ["-c", "source loadLSST.bash; setup lsst_distrib; python /opt/lsst/software/stack/python/lsst/consdb/efd_transform/transform_efd.py -c \"$CONFIG_FILE\" -i \"$INSTRUMENT\" -r \"$BUTLER_REPO\" -d \"$CONSDB_URL\"  -E \"$EFD\" -t \"$TIMEDELTA\" -w \"$TIMEWINDOW\" -l \"$LOG_FILE\" -m \"$MODE\""]
             env:
             - name: CONFIG_FILE 
-              value: /opt/lsst/software/stack/consdb/efd_transform/config_LSSTComCamSim.yaml
+              value: /opt/lsst/software/stack/python/lsst/consdb/efd_transform/config_LSSTComCam.yaml
             - name: INSTRUMENT
-              value: LSSTComCamSim
+              value: LSSTComCam
             - name: TIMEDELTA
               value: "5"
             - name : TIMEWINDOW
               value: "1"          
+            - name: MODE
+              value: "cronjob"                
             - name: CONSDB_URL
               valueFrom:
                 secretKeyRef:
@@ -75,8 +77,9 @@ spec:
               value: "/opt/lsst/software/stack/data/transform.log"              
             resources:
               limits:
-                cpu: "1"
-                memory: "4Gi"
+                cpu: "4"
+                memory: "8Gi"
               requests:
-                cpu: "250m"
-                memory: "2Gi"
+                cpu: "2"
+                memory: "4Gi"
+
