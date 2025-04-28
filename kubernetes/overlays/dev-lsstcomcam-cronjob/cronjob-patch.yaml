@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: transformed-efd-dev
+spec:
+  schedule: "*/5 * * * *"  
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: processor  
+            env:
+            - name: INSTRUMENT
+              value: "LSSTComCam"
+            - name: CONFIG_FILE
+              value: "/opt/lsst/software/stack/python/lsst/consdb/transformed_efd/config/config_latiss.yaml"
+            - name: TIMEDELTA
+              value: "5"
+            - name: TIMEWINDOW
+              value: "1"
+            - name: CONSDB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: efd-transform-secrets
+                  key: consdb-url-testing
+            - name: BUTLER_REPO
+              value: "s3://embargo@rubin-summit-users/butler.yaml"

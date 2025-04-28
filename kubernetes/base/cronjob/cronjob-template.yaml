@@ -1,0 +1,102 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: transformed-efd-env  # Overridden in overlays
+  labels:
+    app: transformed-efd
+    app.kubernetes.io/component: cronjob
+spec:
+  schedule: "*/5 * * * *"  # Default schedule (override in overlays)
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: transformed-efd
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: processor
+            image: "ghcr.io/lsst-dm/consdb-transformed-efd:placeholder"  # Override in overlays
+            imagePullPolicy: Always
+            command: ["/bin/bash"]
+            args: 
+              - "-c"
+              - |
+                source loadLSST.bash
+                setup lsst_distrib
+                python /opt/lsst/software/stack/python/lsst/consdb/transformed_efd/transform_efd.py \
+                  -c "$CONFIG_FILE" \
+                  -s "$DATETIME_START" \
+                  -e "$DATETIME_END" \
+                  -i "$INSTRUMENT" \
+                  -r "$BUTLER_REPO" \
+                  -d "$CONSDB_URL" \
+                  -E "$EFD" \
+                  -t "$TIMEDELTA" \
+                  -w "$TIMEWINDOW" \
+                  -m "cronjob"  # Explicit cronjob mode 
+            env:
+            # --- Instrument-Specific (Override in overlays) ---
+            - name: CONFIG_FILE
+              value: /default/config.yaml
+            - name: INSTRUMENT
+              value: INSTRUMENT_PLACEHOLDER
+            - name: TIMEDELTA
+              value: "5"
+            - name: TIMEWINDOW
+              value: "1"
+            - name: MODE
+              value: "cronjob"
+            # --- Secrets (Environment-specific)
+            - name: CONSDB_URL
+              valueFrom:
+                secretKeyRef:
+                  name:  efd-transform-secrets
+                  key: consdb-url
+            # --- Secrets (Consistent across instruments) ---
+            - name: EFD_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name:  efd-transform-secrets
+                  key: usdf-efd-password
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name:  efd-transform-secrets
+                  key: aws-access-key-id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name:  efd-transform-secrets
+                  key: aws-secret-access-key
+            - name: LSST_RESOURCES_S3_PROFILE_embargo
+              valueFrom:
+                secretKeyRef:
+                  name: efd-transform-secrets
+                  key: s3-profile-embargo  
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name:  efd-transform-secrets
+                  key: butler-password
+            # --- Common Non-Secret Vars ---
+            - name: EFD_USERNAME
+              value: "efdreader"
+            - name: BUTLER_REPO
+              value: "s3://embargo@rubin-summit-users/butler.yaml"
+            - name: S3_ENDPOINT_URL
+              value: https://s3dfrgw.slac.stanford.edu/
+            - name: PGUSER
+              value: rubin
+
+            resources:
+              limits:
+                cpu: "4"
+                memory: "8Gi"
+              requests:
+                cpu: "2"
+                memory: "4Gi"

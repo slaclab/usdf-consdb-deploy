@@ -1,6 +1,0 @@
-resources:
-- ns.yaml
-# - consdb-transform.yaml
-# - dev-glauber.yaml
-- postgres.yaml
-- postgres-lb.yaml

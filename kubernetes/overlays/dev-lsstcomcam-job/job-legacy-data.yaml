@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: transformed-efd-dev
+spec:
+  template:
+    spec:
+      containers:
+      - name: processor               
+        env:                          
+          - name: INSTRUMENT
+            value: "LSSTComCam"
+          - name: CONFIG_FILE
+            value: "/opt/lsst/software/stack/python/lsst/consdb/transformed_efd/config/config_lsstcomcam.yaml"
+          - name: DATETIME_START
+            value: "2024-12-01T12:00:00"
+          - name: DATETIME_END
+            value: "2024-12-12T12:00:00"
+          - name: TIMEDELTA
+            value: "5"
+          - name: TIMEWINDOW
+            value: "1"
+          - name: CONSDB_URL
+            valueFrom:
+              secretKeyRef:
+                name: efd-transform-secrets
+                key: consdb-url-testing
+          - name: BUTLER_REPO
+            value: "s3://embargo@rubin-summit-users/butler.yaml"
+        
+        resources:
+          limits:
+            cpu: "4"
+            memory: "64Gi"
+          requests:
+            cpu: "2"
+            memory: "32Gi"

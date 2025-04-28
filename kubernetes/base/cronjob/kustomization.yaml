@@ -1,0 +1,3 @@
+resources:
+  - cronjob-template.yaml
+  - namespace.yaml

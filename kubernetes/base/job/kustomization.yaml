@@ -1,0 +1,3 @@
+resources:
+  - job-template.yaml
+  - namespace.yaml

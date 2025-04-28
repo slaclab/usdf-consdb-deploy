@@ -1,8 +1,0 @@
-
-CREATE SCHEMA IF NOT EXISTS cdb_latiss AUTHORIZATION rubin;
-
--- Create Tables Latiss
-
--- Grant Privileges
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA cdb_latiss TO rubin;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA cdb_latiss TO rubin;
