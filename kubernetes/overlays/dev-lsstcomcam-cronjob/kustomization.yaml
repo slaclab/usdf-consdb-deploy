@@ -90,16 +90,6 @@ patches:
   options:
     allowNameChange: true
 
-- patch: |-
-    - op: replace
-      path: /metadata/name
-      value: transformed-efd-dev
-  target:
-    kind: CronJob
-    name: transformed-efd-env
-  options:
-    allowNameChange: true
-
 - path: patch.yaml
   target:
     kind: CronJob

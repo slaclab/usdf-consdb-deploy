@@ -13,9 +13,9 @@ spec:
           - name: CONFIG_FILE
             value: "/opt/lsst/software/stack/python/lsst/consdb/transformed_efd/config/config_lsstcam.yaml"
           - name: DATETIME_START
-            value: "2025-04-23T12:00:00"
+            value: "2025-05-01T23:00:00"
           - name: DATETIME_END
-            value: "2025-04-23T13:40:00"
+            value: "2025-05-01T23:05:00"
           - name: TIMEDELTA
             value: "5"
           - name: TIMEWINDOW

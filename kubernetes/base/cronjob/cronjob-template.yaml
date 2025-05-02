@@ -92,8 +92,12 @@ spec:
               value: https://s3dfrgw.slac.stanford.edu/
             - name: PGUSER
               value: rubin
-<<<<<<< HEAD
-=======
+            - name: PGHOST
+              value: usdf-butler.slac.stanford.edu
+            - name: PGDATABASE
+              value: lsstdb1
+            - name: DAF_BUTLER_REPOSITORY_INDEX
+              value: /sdf/group/rubin/shared/data-repos.yaml'              
             # --- Logging ---
             - name: LOG_LEVEL
               value: "INFO"               
@@ -106,3 +110,16 @@ spec:
               requests:
                 cpu: "2"
                 memory: "4Gi"
+
+            volumeMounts:
+            - mountPath: /sdf/data/rubin
+              name: sdf-data-rubin
+            - mountPath: /sdf/group/rubin
+              name: sdf-group-rubin
+          volumes:
+          - name: sdf-data-rubin
+            persistentVolumeClaim:
+              claimName: sdf-data-rubin
+          - name: sdf-group-rubin
+            persistentVolumeClaim:
+              claimName: sdf-group-rubin

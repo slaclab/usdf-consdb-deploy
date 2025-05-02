@@ -1,3 +1,4 @@
 resources:
   - job-template.yaml
   - namespace.yaml
+  - persistent-volume-claim.yaml

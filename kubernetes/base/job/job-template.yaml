@@ -6,7 +6,7 @@ metadata:
     app: transformed-efd
     app.kubernetes.io/component: batch-job
 spec:
-  ttlSecondsAfterFinished: 60  # Cleanup after 60s
+  ttlSecondsAfterFinished: 600  # Cleanup after 60s
   backoffLimit: 1
   template:
     metadata:
@@ -82,7 +82,8 @@ spec:
           valueFrom:
             secretKeyRef:
               name:  efd-transform-secrets
-              key: butler-password
+              # key: butler-password  
+              key: main-butler-db-password
         # --- Common Non-Secret Vars ---
         - name: EFD_USERNAME
           value: "efdreader"
@@ -92,8 +93,13 @@ spec:
           value: https://s3dfrgw.slac.stanford.edu/
         - name: PGUSER
           value: rubin
-<<<<<<< HEAD
-=======
+        - name: PGHOST
+          value: usdf-butler.slac.stanford.edu
+        - name: PGDATABASE
+          value: lsstdb1
+        - name: DAF_BUTLER_REPOSITORY_INDEX
+          value: /sdf/group/rubin/shared/data-repos.yaml
+
         # --- Logging ---
         - name: LOG_LEVEL
           value: "INFO" 
@@ -106,3 +112,17 @@ spec:
           requests:
             cpu: "2"
             memory: "16Gi"
+
+        volumeMounts:
+        - mountPath: /sdf/data/rubin
+          name: sdf-data-rubin
+        - mountPath: /sdf/group/rubin
+          name: sdf-group-rubin
+      volumes:
+      - name: sdf-data-rubin
+        persistentVolumeClaim:
+          claimName: sdf-data-rubin
+      - name: sdf-group-rubin
+        persistentVolumeClaim:
+          claimName: sdf-group-rubin
+  

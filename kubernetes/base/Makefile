@@ -8,7 +8,8 @@ SECRET_KEYS := aws-access-key-id \
 		consdb-url \
 		consdb-url-testing \
 		s3-profile-embargo \
-		usdf-efd-password
+		usdf-efd-password \
+		main-butler-db-password \
 
 get-secrets-from-vault:
 	mkdir -p etc/.secrets/

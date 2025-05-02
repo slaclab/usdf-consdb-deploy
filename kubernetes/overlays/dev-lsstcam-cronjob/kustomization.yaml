@@ -83,7 +83,7 @@ patches:
 - path: patch.yaml
   target:
     kind: CronJob
-    name: transformed-efd-dev
+    name: transformed-efd-env
   options:
     allowNameChange: true
 >>>>>>> 4e45772 (Fix bug in kustomization.yaml)
