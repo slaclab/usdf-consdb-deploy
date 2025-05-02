@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -41,3 +42,48 @@ patches:
     name: transformed-efd-env
   options:
     allowNameChange: true
+=======
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+images:
+- name: ghcr.io/lsst-dm/consdb-transformed-efd
+  newTag: "tickets-DM-43722"
+
+resources:
+- ../../base/job/
+
+secretGenerator:
+- name: efd-transform-secrets
+  files:
+  - butler-password=etc/.secrets/butler-password
+  - aws-access-key-id=etc/.secrets/aws-access-key-id
+  - aws-secret-access-key=etc/.secrets/aws-secret-access-key
+  - s3-profile-embargo=etc/.secrets/s3-profile-embargo
+  - usdf-efd-password=etc/.secrets/usdf-efd-password
+  - consdb-url=etc/.secrets/consdb-url
+  - consdb-url-testing=etc/.secrets/consdb-url-testing
+
+namespace: dev-lsstcam
+
+commonLabels:
+  instrument: lsstcam
+
+patches:
+- patch: |-
+    - op: replace
+      path: /metadata/name
+      value: dev-lsstcam
+  target:
+    kind: Namespace
+    name: placeholder-namespace
+  options:
+    allowNameChange: true
+
+- path: patch.yaml
+  target:
+    kind: Job
+    name: transformed-efd-env
+  options:
+    allowNameChange: true
+>>>>>>> 4e45772 (Fix bug in kustomization.yaml)

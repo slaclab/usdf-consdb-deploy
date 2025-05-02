@@ -26,4 +26,8 @@ spec:
                 name: efd-transform-secrets
                 key: consdb-url-testing
           - name: BUTLER_REPO
+<<<<<<< HEAD
             value: "s3://embargo@rubin-summit-users/butler.yaml"
+=======
+            value: "/repo/main"
+>>>>>>> 4e45772 (Fix bug in kustomization.yaml)
