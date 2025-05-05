@@ -82,8 +82,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name:  efd-transform-secrets
-              # key: butler-password  
-              key: main-butler-db-password
+              key: butler-password  
         # --- Common Non-Secret Vars ---
         - name: EFD_USERNAME
           value: "efdreader"
@@ -103,7 +102,6 @@ spec:
         # --- Logging ---
         - name: LOG_LEVEL
           value: "INFO" 
->>>>>>> 4e45772 (Fix bug in kustomization.yaml)
 
         resources:
           limits:

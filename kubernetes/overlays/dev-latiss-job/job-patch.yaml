@@ -13,9 +13,9 @@ spec:
           - name: CONFIG_FILE
             value: "/opt/lsst/software/stack/python/lsst/consdb/transformed_efd/config/config_latiss.yaml"
           - name: DATETIME_START
-            value: "2025-04-23T12:00:00"
+            value: "2024-10-02T02:15:00"
           - name: DATETIME_END
-            value: "2025-04-23T13:40:00"
+            value: "2024-10-02T02:20:00"
           - name: TIMEDELTA
             value: "5"
           - name: TIMEWINDOW
@@ -26,8 +26,4 @@ spec:
                 name: efd-transform-secrets
                 key: consdb-url-testing
           - name: BUTLER_REPO
-<<<<<<< HEAD
-            value: "s3://embargo@rubin-summit-users/butler.yaml"
-=======
-            value: "/repo/main"
->>>>>>> 4e45772 (Fix bug in kustomization.yaml)
+            value: "s3://rubin-summit-users/butler.yaml"
