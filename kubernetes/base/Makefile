@@ -19,7 +19,7 @@
 # Configuration
 # ----------------------------
 # Include environment variables from env.mk
--include env.mk
+-include ../env.mk
 
 # Vault path (with the 'secret/' mount prefix)
 SECRET_PATH ?= secret/rubin/usdf-consdb-dev
@@ -47,7 +47,6 @@ SECRET_KEYS ?= aws-access-key-id \
                consdb-url-dev \
                s3-profile-embargo \
                usdf-efd-password
-
 
 # ----------------------------
 # Workflow Targets
