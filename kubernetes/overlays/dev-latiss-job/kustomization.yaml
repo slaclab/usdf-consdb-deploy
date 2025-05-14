@@ -16,8 +16,7 @@ secretGenerator:
   - aws-secret-access-key=etc/.secrets/aws-secret-access-key
   - s3-profile-embargo=etc/.secrets/s3-profile-embargo
   - usdf-efd-password=etc/.secrets/usdf-efd-password
-  - consdb-url=etc/.secrets/consdb-url
-  - consdb-url-testing=etc/.secrets/consdb-url-testing
+  - consdb-url-dev=etc/.secrets/consdb-url-dev
 
 namespace: dev-latiss
 

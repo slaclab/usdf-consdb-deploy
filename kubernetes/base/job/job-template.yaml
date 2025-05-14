@@ -34,23 +34,23 @@ spec:
               -E "$EFD" \
               -t "$TIMEDELTA" \
               -w "$TIMEWINDOW" \
-              -m "job"  # Explicit job mode        
+              -m "$MODE"
         env:
         # --- Instrument-Specific (Override in overlays) ---
         - name: CONFIG_FILE
-          value: /default/config.yaml
+          value: /default/config.yaml       # Path to configuration YAML file   
         - name: INSTRUMENT
-          value: INSTRUMENT_PLACEHOLDER
+          value: INSTRUMENT_PLACEHOLDER     # Instrument name (e.g., "LSSTCam")
         - name: DATETIME_START
-          value: "2024-10-01T21:00:00"
+          value: "2024-10-01T21:00:00"      # ISOT format (UTC)
         - name: DATETIME_END
-          value: "2024-10-10T00:00:00"          
+          value: "2024-10-10T00:00:00"      # ISOT format (UTC)    
         - name: TIMEDELTA
-          value: "5"
+          value: "5"            # Size of the processing chunks (in time, minutes)
         - name: TIMEWINDOW
-          value: "1"
+          value: "1"            # Time overlap between a chunk and the next one (minutes)
         - name: MODE
-          value: "job"
+          value: "job"          # Processing mode (job or cronjob)
         # --- Secrets (Environment-specific)
         - name: CONSDB_URL
           valueFrom:

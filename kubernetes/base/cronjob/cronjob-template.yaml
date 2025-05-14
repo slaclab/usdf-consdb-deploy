@@ -38,17 +38,17 @@ spec:
                   -E "$EFD" \
                   -t "$TIMEDELTA" \
                   -w "$TIMEWINDOW" \
-                  -m "cronjob"  # Explicit cronjob mode 
+                  -m "$MODE"
             env:
             # --- Instrument-Specific (Override in overlays) ---
             - name: CONFIG_FILE
-              value: /default/config.yaml
+              value: /default/config.yaml       # Path to configuration YAML file   
             - name: INSTRUMENT
-              value: INSTRUMENT_PLACEHOLDER
+              value: INSTRUMENT_PLACEHOLDER     # Instrument name (e.g., "LSSTCam")
             - name: TIMEDELTA
-              value: "5"
+              value: "5"            # Size of the processing chunks (in time, minutes)
             - name: TIMEWINDOW
-              value: "1"
+              value: "1"            # Time overlap between a chunk and the next one (minutes)
             - name: MODE
               value: "cronjob"
             # --- Secrets (Environment-specific)
