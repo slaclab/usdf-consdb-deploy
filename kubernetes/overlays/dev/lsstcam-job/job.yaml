@@ -15,7 +15,7 @@ spec:
           - name: DATETIME_START
             value: "2025-05-01T23:00:00"      # ISOT format (UTC)
           - name: DATETIME_END
-            value: "2025-05-01T23:05:00"      # ISOT format (UTC)
+            value: "2025-05-02T23:05:00"      # ISOT format (UTC)
           - name: TIMEDELTA
             value: "5"            # Size of the processing chunks (in time, minutes)
           - name: TIMEWINDOW
