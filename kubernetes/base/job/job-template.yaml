@@ -34,7 +34,8 @@ spec:
               -E "$EFD" \
               -t "$TIMEDELTA" \
               -w "$TIMEWINDOW" \
-              -m "$MODE"
+              -m "$MODE" \
+              ${RESUME:+$RESUME}
         env:
         # --- Instrument-Specific (Override in overlays) ---
         - name: CONFIG_FILE
@@ -51,6 +52,8 @@ spec:
           value: "1"            # Time overlap between a chunk and the next one (minutes)
         - name: MODE
           value: "job"          # Processing mode (job or cronjob)
+        - name: RESUME
+          value: ""            # -R or --resume Flag to resume processing from the last successful chunk
         # --- Secrets (Environment-specific)
         - name: CONSDB_URL
           valueFrom:
