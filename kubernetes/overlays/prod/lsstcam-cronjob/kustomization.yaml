@@ -6,7 +6,7 @@ images:
   newTag: "tickets-DM-43722"
 
 resources:
-- ../../base/cronjob/
+- ../../../base/cronjob/
 
 secretGenerator:
 - name: efd-transform-secrets
