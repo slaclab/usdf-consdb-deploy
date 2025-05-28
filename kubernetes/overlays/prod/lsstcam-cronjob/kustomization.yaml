@@ -3,7 +3,7 @@ kind: Kustomization
 
 images:
 - name: ghcr.io/lsst-dm/consdb-transformed-efd
-  newTag: "tickets-DM-43722"
+  newTag: "25.5.3"
 
 resources:
 - ../../../base/cronjob/

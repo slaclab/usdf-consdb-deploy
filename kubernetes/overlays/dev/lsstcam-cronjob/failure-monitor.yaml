@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: transformed-efd-dev-failure-monitor
 spec:
-  schedule: "* * * * *"
+  schedule: "0 * * * *"
   jobTemplate:
     spec:
       template:
