@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: transformed-efd-prod-failure-monitor
 spec:
-  schedule: "0 * * * *"
+  schedule: "*/60 * * * *"
   jobTemplate:
     spec:
       template:
@@ -21,6 +21,6 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: efd-transform-secrets
-                  key: consdb-url-dev
+                  key: consdb-url
             - name: BUTLER_REPO
               value: "s3://embargo@rubin-summit-users/butler.yaml"

@@ -13,13 +13,13 @@ spec:
           - name: CONFIG_FILE
             value: "/opt/lsst/software/stack/python/lsst/consdb/transformed_efd/config/config_latiss.yaml"
           - name: DATETIME_START
-            value: "2025-04-23T12:00:00"      # ISOT format (UTC)
+            value: "2025-01-01T00:00:00"      # ISOT format (UTC)
           - name: DATETIME_END
-            value: "2025-04-23T13:40:00"      # ISOT format (UTC)
+            value: "2025-05-29T00:30:00"      # ISOT format (UTC)
           - name: TIMEDELTA
-            value: "5"            # Size of the processing chunks (in time, minutes)
+            value: "60"            # Size of the processing chunks (in time, minutes)
           - name: TIMEWINDOW
-            value: "1"            # Time overlap between a chunk and the next one (minutes)
+            value: "5"            # Time overlap between a chunk and the next one (minutes)
           - name: CONSDB_URL
             valueFrom:
               secretKeyRef:
@@ -27,3 +27,11 @@ spec:
                 key: consdb-url
           - name: BUTLER_REPO
             value: "s3://embargo@rubin-summit-users/butler.yaml"
+          
+        resources:
+          limits:
+            cpu: "4"
+            memory: "64Gi"
+          requests:
+            cpu: "2"
+            memory: "32Gi"

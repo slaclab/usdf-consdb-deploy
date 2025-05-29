@@ -14,7 +14,7 @@ spec:
             - name: INSTRUMENT
               value: "LSSTCam"
             - name: CONFIG_FILE
-              value: "/opt/lsst/software/stack/python/lsst/consdb/transformed_efd/config/config_latiss.yaml"
+              value: "/opt/lsst/software/stack/python/lsst/consdb/transformed_efd/config/config_lsstcam.yaml"
             - name: RESUME
               value: "--resume"     # -R or --resume Flag to resume processing from the last successful chunk
             - name: CONSDB_URL

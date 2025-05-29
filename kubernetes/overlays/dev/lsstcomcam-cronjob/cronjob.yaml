@@ -14,7 +14,7 @@ spec:
             - name: INSTRUMENT
               value: "LSSTComCam"
             - name: CONFIG_FILE
-              value: "/opt/lsst/software/stack/python/lsst/consdb/transformed_efd/config/config_latiss.yaml"
+              value: "/opt/lsst/software/stack/python/lsst/consdb/transformed_efd/config/config_lsstcomcam.yaml"
             - name: TIMEDELTA
               value: "5"            # Size of the processing chunks (in time, minutes)
             - name: TIMEWINDOW
