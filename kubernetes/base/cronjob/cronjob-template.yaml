@@ -96,7 +96,7 @@ spec:
             - name: PGUSER
               value: rubin
             - name: PGHOST
-              value: usdf-butler.slac.stanford.edu
+              value: usdf-butler-embargo-db-tx.sdf.slac.stanford.edu
             - name: PGDATABASE
               value: lsstdb1
             - name: DAF_BUTLER_REPOSITORY_INDEX
