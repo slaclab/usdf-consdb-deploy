@@ -1,0 +1,129 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: transformed-efd-env  # Overridden in overlays
+  labels:
+    app: transformed-efd
+    app.kubernetes.io/component: batch-job
+spec:
+  ttlSecondsAfterFinished: 600  # Cleanup after 60s
+  backoffLimit: 1
+  template:
+    metadata:
+      labels:
+        app: transformed-efd
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: processor
+        image: "ghcr.io/lsst-dm/consdb-transformed-efd:placeholder"  
+        imagePullPolicy: Always
+        command: ["/bin/bash"]
+        args: 
+          - "-c"
+          - |
+            source loadLSST.bash
+            setup lsst_distrib
+            python /opt/lsst/software/stack/python/lsst/consdb/transformed_efd/transform_efd.py \
+              -c "$CONFIG_FILE" \
+              -s "$DATETIME_START" \
+              -e "$DATETIME_END" \
+              -i "$INSTRUMENT" \
+              -r "$BUTLER_REPO" \
+              -d "$CONSDB_URL" \
+              -E "$EFD" \
+              -t "$TIMEDELTA" \
+              -w "$TIMEWINDOW" \
+              -m "$MODE" \
+              ${RESUME:+$RESUME}
+        env:
+        # --- Instrument-Specific (Override in overlays) ---
+        - name: CONFIG_FILE
+          value: /default/config.yaml       # Path to configuration YAML file   
+        - name: INSTRUMENT
+          value: INSTRUMENT_PLACEHOLDER     # Instrument name (e.g., "LSSTCam")
+        - name: DATETIME_START
+          value: "2024-10-01T21:00:00"      # ISOT format (UTC)
+        - name: DATETIME_END
+          value: "2024-10-10T00:00:00"      # ISOT format (UTC)    
+        - name: TIMEDELTA
+          value: "5"            # Size of the processing chunks (in time, minutes)
+        - name: TIMEWINDOW
+          value: "1"            # Time overlap between a chunk and the next one (minutes)
+        - name: MODE
+          value: "job"          # Processing mode (job or cronjob)
+        - name: RESUME
+          value: ""            # -R or --resume Flag to resume processing from the last successful chunk
+        # --- Secrets (Environment-specific)
+        - name: CONSDB_URL
+          valueFrom:
+            secretKeyRef:
+              name:  efd-transform-secrets
+              key: consdb-url
+        # --- Secrets (Consistent across instruments) ---
+        - name: EFD_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name:  efd-transform-secrets
+              key: usdf-efd-password
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name:  efd-transform-secrets
+              key: aws-access-key-id
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name:  efd-transform-secrets
+              key: aws-secret-access-key
+        - name: LSST_RESOURCES_S3_PROFILE_embargo
+          valueFrom:
+            secretKeyRef:
+              name: efd-transform-secrets
+              key: s3-profile-embargo  
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name:  efd-transform-secrets
+              key: butler-password  
+        # --- Common Non-Secret Vars ---
+        - name: EFD_USERNAME
+          value: "efdreader"
+        - name: BUTLER_REPO
+          value: "s3://embargo@rubin-summit-users/butler.yaml"
+        - name: S3_ENDPOINT_URL
+          value: https://s3dfrgw.slac.stanford.edu/
+        - name: PGUSER
+          value: rubin
+        - name: PGHOST
+          value: usdf-butler-embargo-db-tx.sdf.slac.stanford.edu
+        - name: PGDATABASE
+          value: lsstdb1
+        - name: DAF_BUTLER_REPOSITORY_INDEX
+          value: /sdf/group/rubin/shared/data-repos.yaml
+
+        # --- Logging ---
+        - name: LOG_LEVEL
+          value: "INFO" 
+
+        resources:
+          limits:
+            cpu: "4"
+            memory: "64Gi"
+          requests:
+            cpu: "2"
+            memory: "16Gi"
+
+        volumeMounts:
+        - mountPath: /sdf/data/rubin
+          name: sdf-data-rubin
+        - mountPath: /sdf/group/rubin
+          name: sdf-group-rubin
+      volumes:
+      - name: sdf-data-rubin
+        persistentVolumeClaim:
+          claimName: sdf-data-rubin
+      - name: sdf-group-rubin
+        persistentVolumeClaim:
+          claimName: sdf-group-rubin
+  

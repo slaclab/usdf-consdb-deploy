@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: transformed-efd-dev
+spec:
+  template:
+    spec:
+      containers:
+      - name: processor               
+        env:                          
+          - name: INSTRUMENT
+            value: "LATISS"
+          - name: CONFIG_FILE
+            value: "/opt/lsst/software/stack/python/lsst/consdb/transformed_efd/config/config_latiss.yaml"
+          - name: DATETIME_START
+            value: "2022-09-06T17:45:00"      # ISOT format (UTC)
+          - name: DATETIME_END
+            value: "2024-10-18T13:40:00"      # ISOT format (UTC)
+          - name: TIMEDELTA
+            value: "120"            # Size of the processing chunks (in time, minutes)
+          - name: TIMEWINDOW
+            value: "5"            # Time overlap between a chunk and the next one (minutes)
+          - name: CONSDB_URL
+            valueFrom:
+              secretKeyRef:
+                name: efd-transform-secrets
+                key: consdb-url-dev
+          - name: BUTLER_REPO
+            value: "s3://rubin-summit-users/butler.yaml"
+          - name: EFD_PATH
+            value: "influxdb-enterprise-standby-data"  # querying the standby node to avoid overload on the primary            
+          
+        resources:
+          limits:
+            cpu: "4"
+            memory: "64Gi"
+          requests:
+            cpu: "2"
+            memory: "32Gi"
