@@ -27,7 +27,9 @@ spec:
                 key: consdb-url-dev
           - name: BUTLER_REPO
             value: "s3://embargo@rubin-summit-users/butler.yaml"
-        
+          - name: EFD_PATH
+            value: "influxdb-enterprise-standby-data"  # querying the standby node to avoid overload on the primary            
+
         resources:
           limits:
             cpu: "4"

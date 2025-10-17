@@ -13,9 +13,9 @@ spec:
           - name: CONFIG_FILE
             value: "/opt/lsst/software/stack/python/lsst/consdb/transformed_efd/config/config_lsstcam.yaml"
           - name: DATETIME_START
-            value: "2025-05-01T23:00:00"      # ISOT format (UTC)
+            value: "2025-08-15T02:00:00"      # ISOT format (UTC)
           - name: DATETIME_END
-            value: "2025-05-02T23:05:00"      # ISOT format (UTC)
+            value: "2025-08-15T02:15:00"      # ISOT format (UTC)
           - name: TIMEDELTA
             value: "5"            # Size of the processing chunks (in time, minutes)
           - name: TIMEWINDOW
@@ -27,3 +27,6 @@ spec:
                 key: consdb-url-dev
           - name: BUTLER_REPO
             value: "s3://embargo@rubin-summit-users/butler.yaml"
+          - name: EFD_PATH
+            value: "influxdb-enterprise-standby-data"  # querying the standby node to avoid overload on the primary            
+
