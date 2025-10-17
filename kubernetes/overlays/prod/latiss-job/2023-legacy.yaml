@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: transformed-efd-prod
+  name: transformed-efd-prod-latiss-2023
 spec:
   template:
     spec:
@@ -9,17 +9,17 @@ spec:
       - name: processor               
         env:                          
           - name: INSTRUMENT
-            value: "LSSTCam"
+            value: "LATISS"
           - name: CONFIG_FILE
-            value: "/opt/lsst/software/stack/python/lsst/consdb/transformed_efd/config/config_lsstcam.yaml"
+            value: "/opt/lsst/software/stack/python/lsst/consdb/transformed_efd/config/config_latiss.yaml"
           - name: DATETIME_START
-            value: "2025-10-01T00:00:00"      # ISOT format (UTC)
+            value: "2023-01-01T00:00:00"      # ISOT format (UTC)
           - name: DATETIME_END
-            value: "2025-10-01T00:15:00"      # ISOT format (UTC)
+            value: "2024-01-01T00:00:00"      # ISOT format (UTC)
           - name: TIMEDELTA
-            value: "5"            # Size of the processing chunks (in time, minutes)
+            value: "60"            # Size of the processing chunks (in time, minutes)
           - name: TIMEWINDOW
-            value: "1"            # Time overlap between a chunk and the next one (minutes)
+            value: "5"            # Time overlap between a chunk and the next one (minutes)
           - name: CONSDB_URL
             valueFrom:
               secretKeyRef:
