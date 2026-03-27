@@ -30,7 +30,7 @@ spec:
               -e "$DATETIME_END" \
               -i "$INSTRUMENT" \
               -r "$BUTLER_REPO" \
-              -d "$CONSDB_URL" \
+              -d "$CONSDB_URL" ${CONSDB_INT_URL:+"$CONSDB_INT_URL"} \
               -E "$EFD" \
               -t "$TIMEDELTA" \
               -w "$TIMEWINDOW" \

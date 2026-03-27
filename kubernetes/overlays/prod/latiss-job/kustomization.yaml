@@ -3,7 +3,7 @@ kind: Kustomization
 
 images:
 - name: ghcr.io/lsst-dm/consdb-transformed-efd
-  newTag: "26.2.1"
+  newTag: "26.3.4"
 
 resources:
 - ../../../base/job/
@@ -17,6 +17,7 @@ secretGenerator:
   - s3-profile-embargo=etc/.secrets/s3-profile-embargo
   - usdf-efd-password=etc/.secrets/usdf-efd-password
   - consdb-url=etc/.secrets/consdb-url
+  - consdb-int-url=etc/.secrets/consdb-int-url
 
 namespace: prod-latiss
 
