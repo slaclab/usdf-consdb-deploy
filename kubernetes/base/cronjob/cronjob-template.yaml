@@ -34,12 +34,12 @@ spec:
                   -e "$DATETIME_END" \
                   -i "$INSTRUMENT" \
                   -r "$BUTLER_REPO" \
-                  -d "$CONSDB_URL" \
+                  -d "$CONSDB_URL" ${CONSDB_INT_URL:+"$CONSDB_INT_URL"} \
                   -E "$EFD" \
                   -t "$TIMEDELTA" \
                   -w "$TIMEWINDOW" \
                   -m "$MODE" \
-                  ${RESUME:+$RESUME}
+                  ${FAILURE_MONITOR:+$FAILURE_MONITOR}
             env:
             # --- Instrument-Specific (Override in overlays) ---
             - name: CONFIG_FILE
@@ -52,8 +52,8 @@ spec:
               value: "1"            # Time overlap between a chunk and the next one (minutes)
             - name: MODE
               value: "cronjob"
-            - name: RESUME
-              value: ""      # -R or --resume Flag to resume processing from the last successful chunk
+            - name: FAILURE_MONITOR
+              value: ""      # --failure-monitor Flag to monitor failures
             # --- Secrets (Environment-specific)
             - name: CONSDB_URL
               valueFrom:
