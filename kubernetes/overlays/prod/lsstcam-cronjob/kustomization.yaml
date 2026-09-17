@@ -3,7 +3,7 @@ kind: Kustomization
 
 images:
 - name: ghcr.io/lsst-dm/consdb-transformed-efd
-  newTag: "26.3.4"
+  newTag: "26.9.1"
 
 resources:
 - ../../../base/cronjob/
