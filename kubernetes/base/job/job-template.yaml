@@ -88,7 +88,7 @@ spec:
               key: butler-password  
         # --- Common Non-Secret Vars ---
         - name: EFD_USERNAME
-          value: "efdreader"
+          value: "sasquatch"
         - name: BUTLER_REPO
           value: "s3://embargo@rubin-summit-users/butler.yaml"
         - name: S3_ENDPOINT_URL
