@@ -5,4 +5,5 @@ SECRET_KEYS ?= aws-access-key-id \
                consdb-url \
                consdb-int-url \
                s3-profile-embargo \
-               usdf-efd-password
+               usdf-efd-password \
+               usdf-efd-user

@@ -86,15 +86,21 @@ spec:
                 secretKeyRef:
                   name:  efd-transform-secrets
                   key: butler-password
-            # --- Common Non-Secret Vars ---
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name:  efd-transform-secrets
+                  key: butler-user
             - name: EFD_USERNAME
-              value: "sasquatch"
+              valueFrom:
+                secretKeyRef:
+                  name:  efd-transform-secrets
+                  key: usdf-efd-user
+            # --- Common Non-Secret Vars ---
             - name: BUTLER_REPO
               value: "s3://embargo@rubin-summit-users/butler.yaml"
             - name: S3_ENDPOINT_URL
               value: https://s3dfrgw.slac.stanford.edu/
-            - name: PGUSER
-              value: rubin
             - name: PGHOST
               value: usdf-butler-embargo-db-tx.sdf.slac.stanford.edu
             - name: PGDATABASE
