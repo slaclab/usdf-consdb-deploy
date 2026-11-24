@@ -1,8 +1,8 @@
 # -------------------------------------------------------------------
-# Makefile for Kubernetes deployment with conditional butler-password
+# Makefile for Kubernetes deployment with conditional butler credentials
 #
 # This Makefile handles:
-#   • Fetching secrets from Vault (auto-selects butler-password).
+#   • Fetching secrets from Vault (auto-selects the butler password and user).
 #   • Linking your Kustomize patch file.
 #   • Rendering or applying your Kustomize overlay.
 #   • Cleaning up local secrets.
@@ -30,24 +30,27 @@ ENV         ?= transformed-efd
 # Patch file to link
 file        ?=
 
-# Toggle embargo vs main butler password (default: true)
+# Toggle embargo vs main butler credentials (default: true)
 embargo     ?= true
 
-# Select butler-password field based on embargo flag
+# Select butler password and user based on the embargo flag
 ifeq ($(embargo),true)
   BUTLER_KEY := butler-embargo-password
+  BUTLER_USER_KEY := butler-embargo-user
 else
-  BUTLER_KEY := main-butler-db-password
+  BUTLER_KEY := butler-main-password
+  BUTLER_USER_KEY := butler-main-user
 endif
 
 # Other Vault fields to fetch
 SECRET_KEYS ?= aws-access-key-id \
                aws-secret-access-key \
                consdb-url \
-			   consdb-int-url \
+               consdb-int-url \
                consdb-url-dev \
                s3-profile-embargo \
-               usdf-efd-password
+               usdf-efd-password \
+               usdf-efd-user
 
 # ----------------------------
 # Workflow Targets
@@ -61,7 +64,8 @@ get-secrets-from-vault:
 	for key in $(SECRET_KEYS); do \
 	  vault kv get --field=$$key $(SECRET_PATH)/$(ENV) > etc/.secrets/$$key; \
 	done; \
-	vault kv get --field=$(BUTLER_KEY) $(SECRET_PATH)/$(ENV) > etc/.secrets/butler-password
+	vault kv get --field=$(BUTLER_KEY) $(SECRET_PATH)/$(ENV) > etc/.secrets/butler-password; \
+	vault kv get --field=$(BUTLER_USER_KEY) $(SECRET_PATH)/$(ENV) > etc/.secrets/butler-user
 
 
 # Clean up secrets folder
